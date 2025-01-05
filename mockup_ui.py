@@ -1,31 +1,32 @@
 import streamlit as st
 from datetime import date, timedelta
 
-# Eine Überschrift der ersten Ebene
+# Überschrift der ersten Ebene
 st.write("# Adminmenü")
 
-# Beispiel-Daten für Geräte und Wartungsinformationen
+# Beispiel-Daten
 devices = ["Gerät_A", "Gerät_B", "Gerät_C"]
+
 reservations = {
-    "Gerät_A": [("2025-01-05", "2025-01-07")],  # Beispiel-Reservierung für ganze Tage
-    "Gerät_B": [],
-    "Gerät_C": [],
+    "Gerät_A": [("2025-01-05", "2025-01-07")],  
+    "Gerät_B": [("2025-01-10", "2025-02-12")],
+    "Gerät_C": [("2025-02-01", "2025-01-07")],
 }
+
 maintenance_info = {
     "Gerät_A": {"next_maintenance": "2025-03-15", "quarterly_costs": 150},
     "Gerät_B": {"next_maintenance": "2025-04-10", "quarterly_costs": 200},
     "Gerät_C": {"next_maintenance": "2025-05-05", "quarterly_costs": 250},
 }
 
-# Reiter erstellen
 tabs = st.tabs(["Geräteverwaltung", "Nutzerverwaltung", "Reservierungssystem", "Wartungs-Management"])
 
-# Inhalt für Tab 1: Geräteverwaltung
+#Tab 1: Geräteverwaltung
 with tabs[0]:
     st.header("Geräteverwaltung")
-    st.write("Das ist der erste Reiter.")
+    st.write("Hier können Sie neue Geräte anlegen oder bestehende Geräte ändern.")
 
-    # Radio-Buttons zur Auswahl der Aktion
+
     action = st.radio(
         "Aktion auswählen:",
         ["Neues Gerät anlegen", "Gerät ändern"],
@@ -52,7 +53,7 @@ with tabs[0]:
         if st.button("Änderungen speichern", key="geraeteverwaltung_speichern"):
             st.success(f"Die Änderungen für '{current_device}' wurden gespeichert!")
 
-# Inhalt für Tab 2: Nutzerverwaltung
+#Tab 2: Nutzerverwaltung
 with tabs[1]:
     st.header("Nutzerverwaltung")
     st.write("Hier können Sie neue Nutzer anlegen.")
@@ -67,15 +68,13 @@ with tabs[1]:
         else:
             st.error("Bitte alle Felder ausfüllen!")
 
-# Inhalt für Tab 3: Reservierungssystem
+#Tab 3: Reservierungssystem
 with tabs[2]:
     st.header("Reservierungssystem")
     st.write("Hier können Sie Reservierungen für Geräte verwalten.")
-
-    # Gerät auswählen
+  
     selected_device = st.selectbox("Gerät auswählen:", devices, key="reservierung_auswahl")
 
-    # Bestehende Reservierungen anzeigen
     st.write(f"### Bestehende Reservierungen für {selected_device}:")
     if reservations[selected_device]:
         for start, end in reservations[selected_device]:
@@ -83,7 +82,6 @@ with tabs[2]:
     else:
         st.write("Keine Reservierungen vorhanden.")
 
-    # Neue Reservierung erstellen
     st.write("### Neue Reservierung erstellen")
     start_date = st.date_input("Startdatum", value=date.today(), key="reservierung_start")
     end_date = st.date_input("Enddatum", value=date.today() + timedelta(days=1), key="reservierung_end")
@@ -95,12 +93,11 @@ with tabs[2]:
             reservations[selected_device].append((start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
             st.success(f"Reservierung für {selected_device} von {start_date} bis {end_date} wurde erfolgreich erstellt!")
 
-# Inhalt für Tab 4: Wartungsmanagement
+#Tab 4: Wartungsmanagement
 with tabs[3]:
     st.header("Wartungs-Management")
     st.write("Hier sehen Sie die Wartungsinformationen für die Geräte.")
 
-    # Gerät auswählen
     selected_device = st.selectbox("Gerät auswählen:", devices, key="wartung_auswahl")
 
     if selected_device:
