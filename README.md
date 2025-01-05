@@ -1,4 +1,5 @@
 # Case Study
+- Mockup_UI_Screenshots : https://imgur.com/a/MyMOS4j
 
 - See instructions in the lecture notes
 
