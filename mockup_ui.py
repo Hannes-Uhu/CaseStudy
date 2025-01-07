@@ -38,12 +38,14 @@ with tabs[0]:
         st.write("### Neues Gerät anlegen")
         new_device_name = st.text_input("Gerätename:", key="neues_geraet_name")
         new_device_manager = st.text_input("Geräteverantwortlicher Benutzer:", key="neues_geraet_manager")
-
         if st.button("Gerät speichern", key="neues_geraet_speichern"):
             if new_device_name and new_device_manager:
+                new_device = Device(device_name=new_device_name,managed_by_user_id=new_device_manager)
+                new_device.store_data()
                 st.success(f"Das Gerät '{new_device_name}' wurde erfolgreich angelegt!")
             else:
                 st.error("Bitte alle Felder ausfüllen!")
+
 
     elif action == "Gerät ändern":
         st.write("### Gerät ändern")
