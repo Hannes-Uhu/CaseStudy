@@ -25,12 +25,11 @@ tabs = st.tabs(["Geräteverwaltung", "Nutzerverwaltung", "Reservierungssystem", 
 #Tab 1: Geräteverwaltung
 with tabs[0]:
     st.header("Geräteverwaltung")
-    st.write("Hier können Sie neue Geräte anlegen oder bestehende Geräte ändern.")
-
+    st.write("Hier können Sie neue Geräte anlegen, bestehende Geräte ändern oder löschen.")
 
     action = st.radio(
         "Aktion auswählen:",
-        ["Neues Gerät anlegen", "Gerät ändern"],
+        ["Neues Gerät anlegen", "Gerät ändern", "Gerät löschen"],
         key="geraeteverwaltung_aktion"
     )
 
@@ -55,6 +54,16 @@ with tabs[0]:
 
         if st.button("Änderungen speichern", key="geraeteverwaltung_speichern"):
             st.success(f"Die Änderungen für '{current_device}' wurden gespeichert!")
+
+    elif action == "Gerät löschen":
+        st.write("### Gerät löschen")
+        device_to_delete = st.selectbox("Gerät auswählen:", devices, key="geraeteverwaltung_loeschen_auswahl")
+        if st.button("Gerät löschen", key="geraeteverwaltung_loeschen"):
+            # Assuming Device class has a delete method
+            device_instance = Device.find_by_attribute("device_name", device_to_delete)
+            device_instance.delete()
+            st.success(f"Das Gerät '{device_to_delete}' wurde erfolgreich gelöscht!")
+
 
 #Tab 2: Nutzerverwaltung
 with tabs[1]:
