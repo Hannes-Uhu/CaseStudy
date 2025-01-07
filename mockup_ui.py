@@ -45,7 +45,7 @@ with tabs[0]:
                 st.success(f"Das Gerät '{new_device_name}' wurde erfolgreich angelegt!")
             else:
                 st.error("Bitte alle Felder ausfüllen!")
-
+    
 
     elif action == "Gerät ändern":
         st.write("### Gerät ändern")
