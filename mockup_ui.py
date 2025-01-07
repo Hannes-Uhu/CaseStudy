@@ -1,11 +1,12 @@
 import streamlit as st
 from datetime import date, timedelta
+from devices import Device
 
 # Überschrift der ersten Ebene
 st.write("# Adminmenü")
 
 # Beispiel-Daten
-devices = ["Gerät_A", "Gerät_B", "Gerät_C"]
+devices = [dev.device_name for dev in Device.find_all()]
 
 reservations = {
     "Gerät_A": [("2025-01-05", "2025-01-07")],  
