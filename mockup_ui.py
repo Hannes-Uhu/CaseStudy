@@ -45,14 +45,15 @@ with tabs[0]:
             else:
                 st.error("Bitte alle Felder ausfüllen!")
     
-
     elif action == "Gerät ändern":
         st.write("### Gerät ändern")
         current_device = st.selectbox("Gerät auswählen:", devices, key="geraeteverwaltung_auswahl")
-        updated_device_name = st.text_input("Neuer Gerätename:", current_device, key="geraeteverwaltung_name")
         updated_device_manager = st.text_input("Neuer Geräteverantwortlicher Benutzer:", key="geraeteverwaltung_manager")
 
         if st.button("Änderungen speichern", key="geraeteverwaltung_speichern"):
+            device_instance = Device.find_by_attribute("device_name", current_device)
+            device_instance.managed_by_user_id = updated_device_manager
+            device_instance.store_data()
             st.success(f"Die Änderungen für '{current_device}' wurden gespeichert!")
 
     elif action == "Gerät löschen":
