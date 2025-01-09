@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import date, timedelta
-from devices import Device
+from masterclass_users_devices import Device
 
 # Überschrift der ersten Ebene
 st.write("# Adminmenü")

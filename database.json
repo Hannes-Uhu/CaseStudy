@@ -17,20 +17,13 @@
     },
     "4": {
       "device_name": "Device4",
-      "managed_by_user_id": "two@mci.edu",
+      "managed_by_user_id": "four@mci.edu",
       "is_active": true
-    }
-  },
-  "devices_with_subclass": {
-    "1": {
-      "device_name": "Device1",
-      "managed_by_user_id": "one@mci.edu",
-      "is_active": true,
-      "reservation": {
-        "name": "res1",
-        "start_date": "{TinyDateTime}:2021-01-01T00:00:00",
-        "end_date": "{TinyDateTime}:2021-01-02T00:00:00"
-      }
+    },
+    "5": {
+      "device_name": "Device5",
+      "managed_by_user_id": "five@mci.edu",
+      "is_active": true
     }
   }
 }
