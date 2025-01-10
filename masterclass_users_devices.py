@@ -85,7 +85,7 @@ class User(MasterClass):
         self.name = name
 
     def __str__(self):
-        return f"User {self.id} - {self.name}"
+        return f"User {self.name} ({self.id})"
 
     def __repr__(self):
         return self.__str__()
