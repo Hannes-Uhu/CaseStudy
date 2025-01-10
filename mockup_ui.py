@@ -1,12 +1,13 @@
 import streamlit as st
 from datetime import date, timedelta
-from masterclass_users_devices import Device
+from masterclass_users_devices import Device, User
 
 # Überschrift der ersten Ebene
 st.write("# Adminmenü")
 
 # Beispiel-Daten
 devices = [dev.device_name for dev in Device.find_all()]
+users = [user.name for user in User.find_all()]
 
 reservations = {
     "Gerät_A": [("2025-01-05", "2025-01-07")],  
@@ -71,15 +72,48 @@ with tabs[1]:
     st.header("Nutzerverwaltung")
     st.write("Hier können Sie neue Nutzer anlegen.")
 
-    first_name = st.text_input("Vorname:", key="nutzer_vorname")
-    last_name = st.text_input("Nachname:", key="nutzer_nachname")
-    email = st.text_input("E-Mail-Adresse:", key="nutzer_email")
+    action = st.radio(
+        "Aktion auswählen:",
+        ["Neuen Nutzer anlegen", "Nutzer ändern", "Nutzer löschen"],
+        key="nutzerverwaltung_aktion"
+    )
 
-    if st.button("Nutzer hinzufügen", key="nutzer_hinzufuegen"):
-        if first_name and last_name and email:
-            st.success(f"Der Nutzer {first_name} {last_name} ({email}) wurde erfolgreich angelegt!")
-        else:
-            st.error("Bitte alle Felder ausfüllen!")
+    if action == "Neuen Nutzer anlegen":
+        st.write("### Neuen Nutzer anlegen")
+        new_name = st.text_input("Vor- und Nachname:", key="neuer_nutzer_name")
+        new_id = st.text_input("E-Mail-Adresse:", key="neuer_nutzer_email")
+        if st.button("Nutzer speichern", key="neuer_nutzer_speichern"):
+            if new_name and new_id:
+                new_user = User(name=new_name, id=new_id)
+                new_user.store_data()
+                st.success(f"Der Nutzer '{new_name}' wurde erfolgreich angelegt!")
+            else:
+                st.error("Bitte alle Felder ausfüllen!")
+
+    elif action == "Nutzer ändern":
+        st.write("### Nutzer ändern")
+        current_user = st.selectbox("Nutzer auswählen:", users, key="nutzerverwaltung_auswahl")
+        user_instance = User.find_by_attribute("name", current_user)
+        st.write(f"Aktuelle E-Mail-Adresse: {user_instance.id}")
+        updated_id = st.text_input("Neue E-Mail-Adresse:", key="nutzerverwaltung_email")
+
+        if st.button("Änderungen speichern", key="nutzerverwaltung_speichern"):
+            user_instance = User.find_by_attribute("name", current_user)
+            user_instance.id = updated_id
+            user_instance.store_data()
+            st.success(f"Die Änderungen für '{current_user}' wurden gespeichert!")
+
+    elif action == "Nutzer löschen":
+        st.write("### Nutzer löschen")
+        user_to_delete = st.selectbox("Nutzer auswählen:", users, key="nutzerverwaltung_loeschen_auswahl")
+
+        if st.button("Nutzer löschen", key="nutzerverwaltung_loeschen"):
+            user_instance = User.find_by_attribute("name", user_to_delete)
+            if user_instance:
+                user_instance.delete()
+                st.success(f"Der Nutzer '{user_to_delete}' wurde erfolgreich gelöscht!")
+            else:
+                st.error(f"Der Nutzer '{user_to_delete}' wurde nicht gefunden!")
 
 #Tab 3: Reservierungssystem
 with tabs[2]:
