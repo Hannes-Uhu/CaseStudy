@@ -81,8 +81,8 @@ class User(MasterClass):
     db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'), storage=serializer).table('users')
 
     def __init__(self, id: str, name: str):
-        self.id = id
         self.name = name
+        self.id = id
 
     def __str__(self):
         return f"User {self.name} ({self.id})"
@@ -91,4 +91,4 @@ class User(MasterClass):
         return self.__str__()
 
     def unique_key(self):
-        return "id"
+        return "name"
